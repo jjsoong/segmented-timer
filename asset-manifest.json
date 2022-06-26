@@ -1,0 +1,16 @@
+{
+  "files": {
+    "main.css": "/segmented-timer/static/css/main.073c9b0a.css",
+    "main.js": "/segmented-timer/static/js/main.daa33149.js",
+    "static/js/787.051f2bfd.chunk.js": "/segmented-timer/static/js/787.051f2bfd.chunk.js",
+    "static/media/logo.svg": "/segmented-timer/static/media/logo.6ce24c58023cc2f8fd88fe9d219db6c6.svg",
+    "index.html": "/segmented-timer/index.html",
+    "main.073c9b0a.css.map": "/segmented-timer/static/css/main.073c9b0a.css.map",
+    "main.daa33149.js.map": "/segmented-timer/static/js/main.daa33149.js.map",
+    "787.051f2bfd.chunk.js.map": "/segmented-timer/static/js/787.051f2bfd.chunk.js.map"
+  },
+  "entrypoints": [
+    "static/css/main.073c9b0a.css",
+    "static/js/main.daa33149.js"
+  ]
+}
