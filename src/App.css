@@ -45,21 +45,40 @@
 
 .Text {
     font-size: 16px;
+    text-align: start;
     margin: 0em 0.5em;
+}
+
+.Top {
+    margin: 3em 3em 0em 3em;
+}
+
+footer {
+    background-color: black;
+    color: white;
+    position: fixed;
+    left: 0;
+    bottom: 0;
+    width: auto;
+    padding: 1.5em 5em;
+}
+
+.Help {
+    margin: 0% 16% 0% 16%;
 }
 
 .LeftGroup {
     flex-direction: row;
     display: inline-flex;
     justify-content: flex-start;
-    width: 50%;
+    width: 60%;
 }
 
 .RightGroup {
     flex-direction: row;
     display: inline-flex;
     justify-content: flex-end;
-    width: 50%;
+    width: 40%;
 }
 
 meter {
@@ -100,11 +119,14 @@ meter {
 
 .NameInput {
     width: 100%;
+    padding: 5px;
     margin: 0em 0em 0em 1em;
 }
 
 .MaxInput {
-    width: 3em;
+    text-align: end;
+    width: 34%;
+    padding: 5px;
     margin: 0em 1em 0em 0em;
 }
 
@@ -119,9 +141,24 @@ meter {
     padding: 5px;
 }
 
+.ImportForm {
+    border: black solid 1px;
+    width: 50%;
+    padding: 2em;
+    margin: 1em auto auto auto;
+}
+
 input:invalid {
     border: red solid 2px;
     color: red;
+}
+
+button:hover:not(.SubmitButton) {
+    border: lightblue solid 2px;
+}
+
+button:disabled {
+    border: red solid 2px;
 }
 
 
