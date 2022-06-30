@@ -1,6 +1,134 @@
-.App {
-  text-align: center;
+#settingsButton {
+    background: url("../public/icons/settings.png");
 }
+
+#helpButton {
+    background: url("../public/icons/help.png");
+}
+
+#pauseButton {
+    background: url("../public/icons/pause.png");
+}
+
+#playButton {
+    background: url("../public/icons/play.png");
+}
+
+#stopButton {
+    background: url("../public/icons/stop.png");
+}
+
+#addButton {
+    background: url("../public/icons/add.png");
+}
+
+#editButton {
+    background: url("../public/icons/edit.png");
+}
+
+#deleteButton {
+    background: url("../public/icons/delete.png");
+}
+
+#resetButton {
+    background: url("../public/icons/reset.png");
+}
+
+.App {
+    text-align: center;
+    align-content: center;
+}
+
+.Large {
+    font-size: 72px;
+}
+
+.Text {
+    font-size: 16px;
+    margin: 0em 0.5em;
+}
+
+.LeftGroup {
+    flex-direction: row;
+    display: inline-flex;
+    justify-content: flex-start;
+    width: 50%;
+}
+
+.RightGroup {
+    flex-direction: row;
+    display: inline-flex;
+    justify-content: flex-end;
+    width: 50%;
+}
+
+meter {
+    width: 600px;
+    height: 40px;
+}
+
+.ButtonRow {
+    flex-direction: row;
+}
+
+.IconButton {
+    background-size: contain;
+    background-repeat: no-repeat;
+    width: 43px;
+    height: 43px;
+    margin: 0em 0.5em;
+}
+
+.SegmentList {
+    border: 2px solid black;
+    width: 700px;
+    margin: 1em auto auto auto;
+}
+
+.SegmentHeader {
+    flex-direction: row;
+    background-color: grey;
+    border: 1px solid black;
+    padding: 0.5em;
+}
+
+.Segment {
+    flex-direction: row;
+    border: 1px dotted black;
+    padding: 0.5em;
+}
+
+.NameInput {
+    width: 100%;
+    margin: 0em 0em 0em 1em;
+}
+
+.MaxInput {
+    width: 3em;
+    margin: 0em 1em 0em 0em;
+}
+
+.SubmitRow {
+    flex-direction: row;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.SubmitButton {
+    margin: 1em 1em 0em 1em;
+    padding: 5px;
+}
+
+input:invalid {
+    border: red solid 2px;
+    color: red;
+}
+
+
+
+
+
+/* Below is create-react-app sample. */
 
 .App-logo {
   height: 40vmin;
