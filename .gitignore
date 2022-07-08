@@ -13,6 +13,8 @@
 
 # misc
 /React_Notes.md
+/Dev_Notes.md
+
 .DS_Store
 .env.local
 .env.development.local
