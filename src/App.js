@@ -1,54 +1,8 @@
 import './App.css';
 import React from 'react';
-
-// Parse 00:00 or 00:00:00 formatted string, returning seconds int.
-function parseTimeString (string) {
-    const regex = /\d?\d/g;
-    let digits = string.match(regex);
-
-    if (digits.length === 3) {
-        return parseInt(digits[0]) * 60 * 60 + parseInt(digits[1]) * 60 + parseInt(digits[2]);
-    } else if (digits.length === 2) {
-        return parseInt(digits[0]) * 60 + parseInt(digits[1]);
-    } else {
-        alert('Unexpected parse error.');
-    }
-}
-
-// Translate seconds int to 00:00:00 string.
-function secondsToHourString (seconds) {
-    let min = Math.floor(seconds/60);
-    let sec = seconds - (min * 60);
-
-    let h = Math.floor(min/60);
-    min = min - (h * 60);
-    
-    return `${h < 10 ? 0 : ""}${h}:${min < 10 ? 0 : ""}${min}:${sec < 10 ? 0 : ""}${sec}`;
-}
-
-// Translate seconds int to 00:00 string.
-function secondsToMinuteString (seconds) {
-    let min = Math.floor(seconds/60);
-    let sec = seconds - (min * 60);
-    
-    return `${min < 10 ? 0 : ""}${min}:${sec < 10 ? 0 : ""}${sec}`;
-}
-
-// Checks if an object is a segment object.
-function isSegment (object) {
-    let objKeys = Object.keys(object);
-    let segKeys = ['name', 'max', 'passed', 'edit'];
-
-    if (objKeys.length === segKeys.length) {
-        for (let i = 0; i < segKeys.length; i++) {
-            if (objKeys[i] !== segKeys[i]) return false;
-        }
-        return true;
-
-    } else {
-        return false;
-    }
-}
+import Segment from './Segment.js';
+import FileForm from './FileForm.js';
+import {secondsToHourString, isSegment} from './Functions.js';
 
 // Webpage class.
 class App extends React.Component {
@@ -379,57 +333,60 @@ class App extends React.Component {
             <div className="App">
                 <div className="ButtonRow Top">
                     <div className="LeftGroup">
-                        <button id="settingsButton" className="IconButton" style={this.state.settings ? on : null} disabled={this.state.running} onClick={this.toggleSettings}></button>
+                        <button id="settingsButton" className="IconButton" title="Settings" style={this.state.settings ? on : null} disabled={this.state.running} onClick={this.toggleSettings}></button>
                     </div>
                     <div className="RightGroup">
-                        <button id="helpButton" className="IconButton" style={this.state.help ? on : null} onClick={this.toggleHelp}></button>
+                        <button id="helpButton" className="IconButton" title="Help" style={this.state.help ? on : null} onClick={this.toggleHelp}></button>
                     </div>
                 </div>
 
+                {/* Help page */}
                 {this.state.help && !this.state.settings && <div>
                     <h1>Hello! Welcome to the Segmented Timer Page!</h1>
-                    <p className="Text Help">
-                        1. Get started by clicking the '+' (add) button to add a new segment.
+                    <div className="Body">
+                        <ol className="Text Help">
+                            <li>Get started by clicking the '+' (add) button to add a new segment.</li>
+                            <li>Give the segment a non-blank name and a non-zero time (minutes:seconds).</li>
+                            <li>Click 'Save' to save the segment.</li>
+                            <li>Repeat as many times to add more segments to your liking.</li>
+                            <li>Press the play button to start the timer! You can watch the segments time as well.</li>
+                            <li>Press the pause button to pause the timer.</li>
+                            <li>Press the stop button to stop and reset the timer.</li>
+                        </ol>
                         <br/>
-                        2. Give the segment a non-blank name and a non-zero time (minutes:seconds).
-                        <br/>
-                        3. Click 'Save' to save the segment.
-                        <br/>
-                        4. Repeat as many times to add more segments to your liking.
-                        <br/><br/>
-                        *. You can edit and delete existing segments by, first clicking on the segment, then clicking the pencil (edit) button or trash can (delete) button, respectively.
-                        <br/><br/>
-                        5. Press the play button to start the timer! You can watch the segments time as well.
-                        <br/>
-                        6. Press the pause button to pause the timer.
-                        <br/>
-                        7. Press the stop button to stop and reset the timer.
-                    </p>
+                        <p className="Text Help">
+                            *You can edit and delete existing segments by, first clicking on the segment, then clicking the pencil (edit) button or trash can (delete) button, respectively.
+                        </p>
+                    </div>
                 </div>}
 
+                {/* Settings page */}
                 {this.state.settings && !this.state.help && <div>
                     <h1>Settings</h1>
-                    <FileForm importFile={this.importFile}>
-                        <a className="SubmitButton" href={link} download="segments.json">Export as .json</a>
-                    </FileForm>
+                    <div className="Body">
+                        <FileForm importFile={this.importFile}>
+                            <a className="SubmitButton" href={link} download="segments.json">Export as .json</a>
+                        </FileForm>
+                    </div>
                 </div>}
 
+                {/* Segments, Main page */}
                 {!this.state.help && !this.state.settings && <div>
+                    <h1>Segmented Timer Page</h1>
                     <p className="Large">{secondsToHourString(totalMax - totalPassed)}</p>
-                    {/* <meter max="100" value="0">0%</meter> */}
 
                     <div className="ButtonRow">
-                        <button id="pauseButton" className="IconButton" onClick={this.pauseTimer}></button>
-                        <button id="playButton" className="IconButton" disabled={this.state.intervalID !== 0} onClick={this.startTimer}></button>
-                        <button id="stopButton" className="IconButton" onClick={this.stopTimer}></button>
+                        <button id="pauseButton" className="IconButton" title="Pause timer" onClick={this.pauseTimer}></button>
+                        <button id="playButton" className="IconButton" title="Start/Play timer" disabled={this.state.intervalID !== 0} onClick={this.startTimer}></button>
+                        <button id="stopButton" className="IconButton" title="Stop and Reset timer" onClick={this.stopTimer}></button>
                     </div>
                     
                     <div className="SegmentList">
                         <div className="SegmentHeader">
                             <div className="LeftGroup">
-                                <button id="addButton" className="IconButton" disabled={this.state.running} onClick={this.addSegment}></button>
-                                <button id="editButton" className="IconButton" disabled={this.state.running} onClick={this.startEditSegment}></button>
-                                <button id="deleteButton" className="IconButton" disabled={this.state.running} onClick={this.deleteSegment}></button>
+                                <button id="addButton" className="IconButton" title="Add segment" disabled={this.state.running} onClick={this.addSegment}></button>
+                                <button id="editButton" className="IconButton" title="Edit selected segment" disabled={this.state.running} onClick={this.startEditSegment}></button>
+                                <button id="deleteButton" className="IconButton" title="Delete selected segment" disabled={this.state.running} onClick={this.deleteSegment}></button>
                             </div>
 
                             <div className="RightGroup">
@@ -450,150 +407,6 @@ class App extends React.Component {
                     </p>
                 </footer>
             </div>
-        );
-    }
-}
-
-// Segment display class.
-class Segment extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            newName: this.props.name,
-            newMax: '',
-        };
-
-        this.saveChanges = this.saveChanges.bind(this);
-        this.cancelChanges = this.cancelChanges.bind(this);
-        this.onChange = this.onChange.bind(this);
-        this.select = this.select.bind(this);
-    }
-
-    saveChanges (event) {
-        event.preventDefault();
-
-        let result = this.props.testName(this.state.newName);
-
-        if (result === -1 || result === this.props.index)  {
-            // Translate newMax to seconds value.
-            this.props.saveSegment(this.state.newName, parseTimeString(this.state.newMax));
-            this.props.stopEditSegment();
-            return true;
-        } else {
-            alert('Names of segments must be unique.');
-            return false;
-        }
-    }
-
-    cancelChanges () {
-        // Delete the segment if first instancing.
-        if (this.props.name === '' && this.props.max === -1) {
-            this.props.deleteSegment();
-        } else {
-            // Make no changes to the segment, and revert state back to normal.
-            this.props.stopEditSegment();
-        }
-    }
-
-    onChange (event) {
-        this.setState({
-            [event.target.name]: event.target.value
-        });
-    }
-
-    select () {
-        this.props.selectSegment(this.props.index);
-    }
-
-    render () {
-        const sel = {
-            background: 'pink'
-        };
-
-        const nsel = {
-            background: 'white'
-        };
-
-        if (this.props.edit) {
-            return (
-                <form className="Segment" onSubmit={this.saveChanges} style={sel}>
-                    <div className="LeftGroup">
-                        <input name="newName" className="NameInput" type="text" placeholder="Segment name (letters, numbers, spaces, underscores)" required pattern="\w|^\w[\w|\s]*\w$" value={this.state.newName} onChange={this.onChange}/>
-                    </div>
-                    <div className="RightGroup">
-                        <input name="newMax" className="MaxInput" type="text" placeholder="0:00 (non-zero)" required pattern="\d?\d:\d[1-9]|\d?\d:[1-9]\d|\d?[1-9]:\d\d" value={this.state.newMax} onChange={this.onChange}/>
-                    </div>
-
-                    <div className="SubmitRow">
-                        <input type="submit" value="Save" className="SubmitButton"/>
-                        <button className="SubmitButton" onClick={this.cancelChanges}>Cancel</button>
-                    </div>
-                </form>
-            );
-        } else {
-            return (
-                <div className="Segment" onClick={this.select} style={this.props.selected ? sel : nsel}>
-                    <div className="LeftGroup">
-                        <p className="Text">{this.props.name}</p>
-                    </div>
-                    <div className="RightGroup">
-                        <p className="Text">{secondsToMinuteString(this.props.max - this.props.passed)}</p>
-                    </div>
-                </div>
-            );
-        }
-        
-    }
-}
-
-// Taken and adapted from my own, jjsoong-github-page, project (ImportFile.js).
-class FileForm extends React.Component {
-    constructor (props) {
-        super(props);
-        this.state = {
-            file: null
-        };
-
-        this.onChange = this.onChange.bind(this);   
-        this.onSubmit = this.onSubmit.bind(this);
-    }
-
-    onChange (event) {
-        if (event.target.files.length > 0) {
-            this.setState({
-                file: event.target.files[0]
-            });
-        } else {
-            this.setState({
-                file: null
-            });
-        }
-    }
-
-    onSubmit (event) {
-        event.preventDefault();
-
-        if (this.state.file) {
-            this.props.importFile(this.state.file);
-        } else {
-            alert('No file selected. Nothing imported.');
-        }
-    }
-
-    render () {
-        return (
-            <form className="ImportForm" onSubmit={this.onSubmit}>
-                <div className="Text">
-                    <label htmlFor="inputFile">Select File:</label><br/>
-                    <input id="inputFile" type="file" accept=".json" onChange={this.onChange}/>
-                </div>
-
-                <div className="SubmitRow">
-                    <input className="SubmitButton" type="submit" value="Import"/>
-                    {this.props.children}
-                </div>
-
-            </form>
         );
     }
 }
