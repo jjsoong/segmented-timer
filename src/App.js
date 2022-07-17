@@ -348,7 +348,7 @@ class App extends React.Component {
                             <li>Get started by clicking the '+' (add) button to add a new segment.</li>
                             <li>Give the segment a non-blank name and a non-zero time (minutes:seconds).</li>
                             <li>Click 'Save' to save the segment.</li>
-                            <li>Repeat as many times to add more segments to your liking.</li>
+                            <li>Repeat (1-3) as many times to add more segments to your liking.</li>
                             <li>Press the play button to start the timer! You can watch the segments time as well.</li>
                             <li>Press the pause button to pause the timer.</li>
                             <li>Press the stop button to stop and reset the timer.</li>
@@ -390,7 +390,7 @@ class App extends React.Component {
                             </div>
 
                             <div className="RightGroup">
-                                <button id="resetButton" className="IconButton" disabled={this.state.running}  onClick={this.resetSegments}></button>
+                                <button id="resetButton" className="IconButton" title="Clear segment table" disabled={this.state.running}  onClick={this.resetSegments}></button>
                             </div>
                         </div>
 
