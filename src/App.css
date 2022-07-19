@@ -6,6 +6,10 @@
     background-image: url("../public/icons/help.png");
 }
 
+#finishButton {
+    background-image: url("../public/icons/checkmark.png");
+}
+
 #pauseButton {
     background-image: url("../public/icons/pause.png");
 }

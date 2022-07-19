@@ -11,6 +11,7 @@ class App extends React.Component {
         this.state = {
             indexCount: 0,
             current: 0,
+            user: 0,
             intervalID: 0,  // As intervalIDs are non-zero, 0 means no interval is running.
             segments: [],
             selection: -1,
@@ -19,6 +20,8 @@ class App extends React.Component {
             help: false,
             settings: false
         };
+
+        this.finishSegment = this.finishSegment.bind(this);
 
         this.tick = this.tick.bind(this);
         this.startTimer = this.startTimer.bind(this);
@@ -40,22 +43,62 @@ class App extends React.Component {
         this.importFile = this.importFile.bind(this);
     }
 
+    // Flag that the user has finished their activity for a segment. Swap to the next segment.
+    finishSegment () {
+        if (this.state.running) {
+            this.setState((state) => {
+                let newSegments = JSON.parse(JSON.stringify(state.segments));
+    
+                // If user is running -> finished.
+                // If user is overtime -> overtime (no change).
+                if (newSegments[state.user].waruovfi === 1) newSegments[state.user].waruovfi = 3;
+    
+                return {
+                    current: (state.current < state.user + 1 ? state.user + 1 : state.current),
+                    user: state.user + 1,
+                    segments: newSegments
+                };
+            });
+        }
+    }
+
     // 'tick' of the timer.
     tick () {
+        // Is the current segment at 0:00?
         if (this.state.segments[this.state.current].max === this.state.segments[this.state.current].passed) {
+            // Is the current segment the final segment?
             if (this.state.current >= this.state.segments.length - 1) {
                 this.pauseTimer();
                 return;
+
             } else {
+                // Current segment is not the final segment -> swap to next segment.
                 this.setState((state) => {
-                    return {current: state.current + 1};
+                    let newSegments = JSON.parse(JSON.stringify(state.segments));
+
+                    newSegments[state.current].waruovfi = 2;
+                    newSegments[state.current + 1].waruovfi = 1;
+
+                    return {
+                        current: state.current + 1,
+                        segments: newSegments
+                    };
                 });
             }
         }
 
         this.setState((state) => {
             let newSegments = JSON.parse(JSON.stringify(state.segments));
-            newSegments[state.current].passed++;
+
+            // For first segment.
+            if (newSegments[state.current].waruovfi === 0) newSegments[state.current].waruovfi = 1;
+
+            for (let i = 0; i < newSegments.length; i++) {
+                if (i >= state.user && (newSegments[i].waruovfi === 1 || newSegments[i].waruovfi === 2)) {
+                    newSegments[i].passed++;
+                }
+            }
+
             return {
                 segments: newSegments
             };
@@ -99,10 +142,12 @@ class App extends React.Component {
             
             for (let i = 0; i < newSegments.length; i++) {
                 newSegments[i].passed = 0;
+                newSegments[i].waruovfi = 0;
             }
 
             return {
                 current: 0,
+                user: 0,
                 intervalID: 0,  // Won't do anything if no interval is active.
                 segments: newSegments,
                 running: false
@@ -117,6 +162,7 @@ class App extends React.Component {
                 name: '',
                 max: -1,
                 passed: 0,
+                waruovfi: 0,    // 0 = waiting, 1 = running, 2 = overtime, 3 = finished
                 edit: true
             }
 
@@ -307,7 +353,10 @@ class App extends React.Component {
                 name={segment.name}
                 max={segment.max}
                 passed={segment.passed}
+                waruovfi={segment.waruovfi}
                 edit={segment.edit}
+
+                user={index === this.state.user}
                 selected={index === this.state.selection}
 
                 testName={this.testName}
@@ -317,11 +366,13 @@ class App extends React.Component {
                 selectSegment={this.selectSegment}
             />);
 
-        let totalMax = 0, totalPassed = 0;
+        let remaining = 0;
 
         for (let i = 0; i < this.state.segments.length; i++) {
-            totalMax += this.state.segments[i].max > 0 ? this.state.segments[i].max : 0;
-            totalPassed += this.state.segments[i].passed;
+            if (this.state.segments[i].waruovfi === 0 || this.state.segments[i].waruovfi === 1) {
+                let diff = this.state.segments[i].max - this.state.segments[i].passed;
+                remaining += diff > 0 ? diff : 0;
+            }
         }
 
         let on = {border: "green solid 2px"};
@@ -373,9 +424,10 @@ class App extends React.Component {
                 {/* Segments, Main page */}
                 {!this.state.help && !this.state.settings && <div>
                     <h1>Segmented Timer Page</h1>
-                    <p className="Large">{secondsToHourString(totalMax - totalPassed)}</p>
+                    <p className="Large">{secondsToHourString(remaining)}</p>
 
                     <div className="ButtonRow">
+                        <button id="finishButton" className="IconButton" title="Finish current segment" disabled={!this.state.running} onClick={this.finishSegment}></button>
                         <button id="pauseButton" className="IconButton" title="Pause timer" onClick={this.pauseTimer}></button>
                         <button id="playButton" className="IconButton" title="Start/Play timer" disabled={this.state.intervalID !== 0} onClick={this.startTimer}></button>
                         <button id="stopButton" className="IconButton" title="Stop and Reset timer" onClick={this.stopTimer}></button>

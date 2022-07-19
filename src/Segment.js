@@ -54,13 +54,37 @@ class Segment extends React.Component {
     }
 
     render () {
+        let diff = this.props.max - this.props.passed;
+        let timeText;
+
+        if (diff < 0) {
+            timeText = "-" + secondsToMinuteString(diff * -1);
+        } else {
+            timeText = secondsToMinuteString(diff);
+        }
+
         const sel = {
-            background: 'pink'
+            background: 'lightblue'
         };
 
         const nsel = {
             background: 'white'
         };
+
+        const overtime = {
+            color: 'red'
+        };
+
+        const finished = {
+            color: 'green'
+        };
+
+        let textStyle;
+        switch (this.props.waruovfi) {
+            case 2: textStyle = overtime; break;
+            case 3: textStyle = finished; break;
+            default: break;
+        }
 
         if (this.props.edit) {
             return (
@@ -82,10 +106,11 @@ class Segment extends React.Component {
             return (
                 <div className="Segment" onClick={this.select} style={this.props.selected ? sel : nsel}>
                     <div className="LeftGroup">
-                        <p className="Text">{this.props.name}</p>
+                        <p className="Text" style={textStyle}>{this.props.name}</p>
+                        {this.props.user && <p className="Text" style={textStyle}>◀</p>}
                     </div>
                     <div className="RightGroup">
-                        <p className="Text">{secondsToMinuteString(this.props.max - this.props.passed)}</p>
+                        <p className="Text" style={textStyle}>{timeText}</p>
                     </div>
                 </div>
             );

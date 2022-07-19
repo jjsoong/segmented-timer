@@ -36,7 +36,7 @@ function secondsToMinuteString (seconds) {
 // Checks if an object is a segment object.
 function isSegment (object) {
     let objKeys = Object.keys(object);
-    let segKeys = ['name', 'max', 'passed', 'edit'];
+    let segKeys = ['name', 'max', 'passed', 'waruovfi', 'edit'];
 
     if (objKeys.length === segKeys.length) {
         for (let i = 0; i < segKeys.length; i++) {
