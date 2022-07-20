@@ -64,11 +64,8 @@ class Segment extends React.Component {
         }
 
         const sel = {background: 'lightblue'};
-
         const nsel = {background: 'white'};
-
         const overtime = {color: 'red'};
-
         const finished = {color: 'green'};
 
         let textStyle;

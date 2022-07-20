@@ -1,46 +1,14 @@
-#settingsButton {
-    background-image: url("../public/icons/settings.png");
-}
-
-#helpButton {
-    background-image: url("../public/icons/help.png");
-}
-
-.ExitButton {
-    background-image: url("../public/icons/exit.png");
-}
-
-#finishButton {
-    background-image: url("../public/icons/checkmark.png");
-}
-
-#pauseButton {
-    background-image: url("../public/icons/pause.png");
-}
-
-#playButton {
-    background-image: url("../public/icons/play.png");
-}
-
-#stopButton {
-    background-image: url("../public/icons/stop.png");
-}
-
-#addButton {
-    background-image: url("../public/icons/add.png");
-}
-
-#editButton {
-    background-image: url("../public/icons/edit.png");
-}
-
-#deleteButton {
-    background-image: url("../public/icons/delete.png");
-}
-
-#clearButton {
-    background-image: url("../public/icons/reset.png");
-}
+#settingsButton {background-image: url("../public/icons/settings.png");}
+#helpButton {background-image: url("../public/icons/help.png");}
+.ExitButton {background-image: url("../public/icons/exit.png");}
+#finishButton {background-image: url("../public/icons/checkmark.png");}
+#pauseButton {background-image: url("../public/icons/pause.png");}
+#playButton {background-image: url("../public/icons/play.png");}
+#stopButton {background-image: url("../public/icons/stop.png");}
+#addButton {background-image: url("../public/icons/add.png");}
+#editButton {background-image: url("../public/icons/edit.png");}
+#deleteButton {background-image: url("../public/icons/delete.png");}
+#clearButton {background-image: url("../public/icons/reset.png");}
 
 .App {
     text-align: center;
