@@ -90,15 +90,15 @@ class Segment extends React.Component {
             return (
                 <form className="Segment" onSubmit={this.saveChanges} style={sel}>
                     <div className="LeftGroup">
-                        <input name="newName" className="NameInput" type="text" placeholder="Segment name (letters, numbers, spaces, underscores)" required pattern="\w|^\w[\w|\s]*\w$" value={this.state.newName} onChange={this.onChange}/>
+                        <input name="newName" className="NameInput" type="text" placeholder={this.props.local.namePH} required pattern="\w|^\w[\w|\s]*\w$" value={this.state.newName} onChange={this.onChange}/>
                     </div>
                     <div className="RightGroup">
-                        <input name="newMax" className="MaxInput" type="text" placeholder="0:00 (non-zero)" required pattern="\d?\d:\d[1-9]|\d?\d:[1-9]\d|\d?[1-9]:\d\d" value={this.state.newMax} onChange={this.onChange}/>
+                        <input name="newMax" className="MaxInput" type="text" placeholder={this.props.local.timePH} required pattern="\d?\d:\d[1-9]|\d?\d:[1-9]\d|\d?[1-9]:\d\d" value={this.state.newMax} onChange={this.onChange}/>
                     </div>
 
                     <div className="SubmitRow">
-                        <input type="submit" value="Save" className="SubmitButton"/>
-                        <button className="SubmitButton" onClick={this.cancelChanges}>Cancel</button>
+                        <input type="submit" value={this.props.local.save} className="SubmitButton"/>
+                        <button className="SubmitButton" onClick={this.cancelChanges}>{this.props.local.cancel}</button>
                     </div>
                 </form>
             );

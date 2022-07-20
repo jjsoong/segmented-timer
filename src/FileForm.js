@@ -37,15 +37,19 @@ class FileForm extends React.Component {
 
     render () {
         return (
-            <form className="ImportForm" onSubmit={this.onSubmit}>
-                <div className="Text">
-                    <label htmlFor="inputFile">Select File:</label><br/>
+            <form className="Inner" onSubmit={this.onSubmit}>
+                <h3>{this.props.local.fileio}</h3>
+                <p className="Text" style={{margin: "0em 0em 0.5em 0em"}}>{this.props.local.fileioSub}</p>
+                <div className="FileInput">
+                    <div className="LeftGroup">
+                        <label htmlFor="inputFile">{this.props.local.selectFile}</label>
+                    </div>
                     <input id="inputFile" type="file" accept=".json" onChange={this.onChange}/>
                 </div>
 
                 <div className="SubmitRow">
-                    <input className="SubmitButton" type="submit" value="Import"/>
                     {this.props.children}
+                    <input className="IOButton" type="submit" value={this.props.local.import}/>
                 </div>
 
             </form>

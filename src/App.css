@@ -6,6 +6,10 @@
     background-image: url("../public/icons/help.png");
 }
 
+.ExitButton {
+    background-image: url("../public/icons/exit.png");
+}
+
 #finishButton {
     background-image: url("../public/icons/checkmark.png");
 }
@@ -34,7 +38,7 @@
     background-image: url("../public/icons/delete.png");
 }
 
-#resetButton {
+#clearButton {
     background-image: url("../public/icons/reset.png");
 }
 
@@ -45,12 +49,13 @@
 
 .Large {
     font-size: 72px;
+    margin: 0.5em auto;
 }
 
 .Text {
     font-size: 16px;
     text-align: start;
-    margin: 0em 0.5em;
+    margin: 0em 3em;
 }
 
 .Top {
@@ -58,8 +63,15 @@
 }
 
 .Body {
-    border: black solid 1px;
+    border: black solid 2px;
     width: 50%;
+    padding: 2em;
+    margin: 1em auto auto auto;
+}
+
+.Inner {
+    border: black solid 1px;
+    width: 80%;
     padding: 2em;
     margin: 1em auto auto auto;
 }
@@ -75,27 +87,18 @@ footer {
     margin: 15em 0em 0em 0em;
 }
 
-.Help {
-    margin: 0% 16% 0% 16%;
-}
-
 .LeftGroup {
     flex-direction: row;
     display: inline-flex;
     justify-content: flex-start;
-    width: 60%;
+    width: 65%;
 }
 
 .RightGroup {
     flex-direction: row;
     display: inline-flex;
     justify-content: flex-end;
-    width: 40%;
-}
-
-meter {
-    width: 600px;
-    height: 40px;
+    width: 35%;
 }
 
 .ButtonRow {
@@ -128,6 +131,10 @@ meter {
     padding: 0.5em;
 }
 
+.Segment .Text {
+    margin: 0em 0.5em;
+}
+
 .NameInput {
     width: 100%;
     padding: 5px;
@@ -136,7 +143,7 @@ meter {
 
 .MaxInput {
     text-align: end;
-    width: 34%;
+    width: 50%;
     padding: 5px;
     margin: 0em 1em 0em 0em;
 }
@@ -145,18 +152,32 @@ meter {
     flex-direction: row;
     display: flex;
     justify-content: flex-start;
+    margin: 1em 0em 0em 0em;
 }
 
 .SubmitButton {
-    margin: 1em 1em 0em 1em;
+    margin: 0em 1em 0em 1em;
     padding: 5px;
 }
 
-.ImportForm {
-    border: black solid 1px;
-    width: 80%;
-    padding: 2em;
-    margin: 1em auto auto auto;
+.FileInput {
+    flex-direction: column;
+    display: flex;
+    justify-content: flex-start;
+}
+
+.IOButton {
+    background-color: #eeeeee;  /* eeeeee */
+    border: 1px solid black;
+    border-radius: 2px;
+    font-size: 14px;
+    height: auto;
+    margin: 0em 1em 0em 0em;
+    padding: 5px;
+}
+
+.Dropdown {
+    padding: 5px;
 }
 
 input:invalid {
@@ -165,7 +186,7 @@ input:invalid {
 }
 
 button:hover:not(.SubmitButton) {
-    border: lightblue solid 2px;
+    background-color: lightblue;
 }
 
 button:disabled {

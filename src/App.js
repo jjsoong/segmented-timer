@@ -3,6 +3,7 @@ import React from 'react';
 import Segment from './Segment.js';
 import FileForm from './FileForm.js';
 import {secondsToHourString, isSegment} from './Functions.js';
+import local from './Local.js';
 
 // Webpage class.
 class App extends React.Component {
@@ -18,29 +19,35 @@ class App extends React.Component {
             running: false,
             editing: false,
             help: false,
-            settings: false
+            settings: false,
+            localset: 0
         };
 
+        // Timer functions.
         this.finishSegment = this.finishSegment.bind(this);
-
         this.tick = this.tick.bind(this);
         this.startTimer = this.startTimer.bind(this);
         this.pauseTimer = this.pauseTimer.bind(this);
         this.stopTimer = this.stopTimer.bind(this);
 
+        // Segment functions
         this.addSegment = this.addSegment.bind(this);
         this.startEditSegment = this.startEditSegment.bind(this);
         this.testName = this.testName.bind(this);
         this.saveSegment = this.saveSegment.bind(this);
         this.stopEditSegment = this.stopEditSegment.bind(this);
         this.deleteSegment = this.deleteSegment.bind(this);
-        this.resetSegments = this.resetSegments.bind(this);
+        this.clearSegments = this.clearSegments.bind(this);
         this.selectSegment = this.selectSegment.bind(this);
         
+        // Navigation
         this.toggleHelp = this.toggleHelp.bind(this);
         this.toggleSettings = this.toggleSettings.bind(this);
+        this.exitPanel = this.exitPanel.bind(this);
 
+        // Settings function
         this.importFile = this.importFile.bind(this);
+        this.selectLocal = this.selectLocal.bind(this);
     }
 
     // Flag that the user has finished their activity for a segment. Swap to the next segment.
@@ -49,9 +56,9 @@ class App extends React.Component {
             this.setState((state) => {
                 let newSegments = JSON.parse(JSON.stringify(state.segments));
     
-                // If user is running -> finished.
+                // If user is waiting/running -> finished.
                 // If user is overtime -> overtime (no change).
-                if (newSegments[state.user].waruovfi === 1) newSegments[state.user].waruovfi = 3;
+                if (newSegments[state.user].waruovfi !== 2) newSegments[state.user].waruovfi = 3;
     
                 return {
                     current: (state.current < state.user + 1 ? state.user + 1 : state.current),
@@ -271,7 +278,7 @@ class App extends React.Component {
     }
 
     // Reset the segments list.
-    resetSegments () {
+    clearSegments () {
         this.setState({
             indexCount: 0,
             segments: [],
@@ -313,6 +320,13 @@ class App extends React.Component {
         }
     }
 
+    exitPanel () {
+        this.setState({
+            help: false,
+            settings: false
+        });
+    }
+
     // Taken from my own, jjsoong-github-page, project.
     importFile (file) {
         let reader = new FileReader();
@@ -325,7 +339,7 @@ class App extends React.Component {
             try {
                 let newSegments = JSON.parse(dataString);
 
-                for (let i = 0; i < newSegments; i++) {
+                for (let i = 0; i < newSegments.length; i++) {
                     if (!isSegment(newSegments[i])) throw new Error('Not a segment!');
                 }
 
@@ -344,8 +358,16 @@ class App extends React.Component {
         reader.readAsText(file);
     }
 
+    // Select the localisation.
+    selectLocal (event) {
+        this.setState({
+            localset: event.target.value
+        });
+    }
+
     // Render the entire web app.
     render () {
+        // Create array of segment React component objects.
         let segArray = this.state.segments.map((segment, index) =>
             <Segment
                 key={segment.name}
@@ -364,10 +386,12 @@ class App extends React.Component {
                 stopEditSegment={this.stopEditSegment}
                 deleteSegment={this.deleteSegment}
                 selectSegment={this.selectSegment}
+
+                local={local[this.state.localset].segment}
             />);
 
+        // Calculation of remaining time.
         let remaining = 0;
-
         for (let i = 0; i < this.state.segments.length; i++) {
             if (this.state.segments[i].waruovfi === 0 || this.state.segments[i].waruovfi === 1) {
                 let diff = this.state.segments[i].max - this.state.segments[i].passed;
@@ -375,74 +399,97 @@ class App extends React.Component {
             }
         }
 
-        let on = {border: "green solid 2px"};
+        // For style of settings and help icon buttons, for when the respective panel is displayed.
+        let on = {backgroundColor: "lightgreen"};
 
         // Line taken & adapted from a personal project.
         let link = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.segments));
+
+        // Options for the localisation dropdown list.
+        let localOptions = local.map((localObj, index) => 
+            <option key={localObj.language} value={index}>{localObj.language}</option>
+        );
+
+        // Localisation of help list.
+        let localHelpList = local[this.state.localset].help.list.map((listItem, index) =>
+            <li key={index}>{listItem}</li>
+        );
 
         return (
             <div className="App">
                 <div className="ButtonRow Top">
                     <div className="LeftGroup">
-                        <button id="settingsButton" className="IconButton" title="Settings" style={this.state.settings ? on : null} disabled={this.state.running} onClick={this.toggleSettings}></button>
+                        <button id="settingsButton" className="IconButton" title={local[this.state.localset].tooltips.settings} style={this.state.settings ? on : null} disabled={this.state.running} onClick={this.toggleSettings}></button>
                     </div>
                     <div className="RightGroup">
-                        <button id="helpButton" className="IconButton" title="Help" style={this.state.help ? on : null} onClick={this.toggleHelp}></button>
+                        <button id="helpButton" className="IconButton" title={local[this.state.localset].tooltips.help} style={this.state.help ? on : null} onClick={this.toggleHelp}></button>
                     </div>
                 </div>
 
                 {/* Help page */}
                 {this.state.help && !this.state.settings && <div>
-                    <h1>Hello! Welcome to the Segmented Timer Page!</h1>
+                    <h1>{local[this.state.localset].help.heading}</h1>
                     <div className="Body">
-                        <ol className="Text Help">
-                            <li>Get started by clicking the '+' (add) button to add a new segment.</li>
-                            <li>Give the segment a non-blank name and a non-zero time (minutes:seconds).</li>
-                            <li>Click 'Save' to save the segment.</li>
-                            <li>Repeat (1-3) as many times to add more segments to your liking.</li>
-                            <li>Press the play button to start the timer! You can watch the segments time as well.</li>
-                            <li>Press the pause button to pause the timer.</li>
-                            <li>Press the stop button to stop and reset the timer.</li>
-                        </ol>
+                        <div className="ButtonRow">
+                            <div className="LeftGroup"></div>
+                            <div className="RightGroup">
+                                <button className="ExitButton IconButton" title={local[this.state.localset].tooltips.exit} onClick={this.exitPanel}/>
+                            </div>
+                        </div>
+                        <ol className="Text" style={{marginTop: "1em"}}>{localHelpList}</ol>
                         <br/>
-                        <p className="Text Help">
-                            *You can edit and delete existing segments by, first clicking on the segment, then clicking the pencil (edit) button or trash can (delete) button, respectively.
-                        </p>
+                        <p className="Text">{local[this.state.localset].help.notes}</p>
                     </div>
                 </div>}
 
                 {/* Settings page */}
                 {this.state.settings && !this.state.help && <div>
-                    <h1>Settings</h1>
+                    <h1>{local[this.state.localset].tooltips.settings}</h1>
                     <div className="Body">
-                        <FileForm importFile={this.importFile}>
-                            <a className="SubmitButton" href={link} download="segments.json">Export as .json</a>
+                        <div className="ButtonRow">
+                            <div className="LeftGroup"></div>
+                            <div className="RightGroup">
+                                <button className="ExitButton IconButton" title={local[this.state.localset].tooltips.exit} onClick={this.exitPanel}/>
+                            </div>
+                        </div>
+                        <FileForm importFile={this.importFile} local={local[this.state.localset].settingsText}>
+                            <a className="IOButton" href={link} download="segments.json">{local[this.state.localset].settingsText.export}</a>
                         </FileForm>
+                        <div className="Inner">
+                            <div className="LeftGroup">
+                                <label>{local[this.state.localset].settingsText.language}</label>
+                            </div>
+                            <div className="RightGroup">
+                                <select className="Dropdown" value={this.state.localset} onChange={this.selectLocal}>
+                                    {localOptions}
+                                </select>
+                            </div>
+                        </div>
                     </div>
                 </div>}
 
                 {/* Segments, Main page */}
                 {!this.state.help && !this.state.settings && <div>
-                    <h1>Segmented Timer Page</h1>
+                    <h1>{local[this.state.localset].title}</h1>
                     <p className="Large">{secondsToHourString(remaining)}</p>
 
                     <div className="ButtonRow">
-                        <button id="finishButton" className="IconButton" title="Finish current segment" disabled={!this.state.running} onClick={this.finishSegment}></button>
-                        <button id="pauseButton" className="IconButton" title="Pause timer" onClick={this.pauseTimer}></button>
-                        <button id="playButton" className="IconButton" title="Start/Play timer" disabled={this.state.intervalID !== 0} onClick={this.startTimer}></button>
-                        <button id="stopButton" className="IconButton" title="Stop and Reset timer" onClick={this.stopTimer}></button>
+                        <button id="finishButton" className="IconButton" title={local[this.state.localset].tooltips.finish} disabled={!this.state.running} onClick={this.finishSegment}></button>
+                        <button id="pauseButton" className="IconButton" title={local[this.state.localset].tooltips.pause} onClick={this.pauseTimer}></button>
+                        <button id="playButton" className="IconButton" title={local[this.state.localset].tooltips.play} disabled={this.state.intervalID !== 0} onClick={this.startTimer}></button>
+                        <button id="stopButton" className="IconButton" title={local[this.state.localset].tooltips.stop} onClick={this.stopTimer}></button>
                     </div>
                     
                     <div className="SegmentList">
                         <div className="SegmentHeader">
                             <div className="LeftGroup">
-                                <button id="addButton" className="IconButton" title="Add segment" disabled={this.state.running} onClick={this.addSegment}></button>
-                                <button id="editButton" className="IconButton" title="Edit selected segment" disabled={this.state.running} onClick={this.startEditSegment}></button>
-                                <button id="deleteButton" className="IconButton" title="Delete selected segment" disabled={this.state.running} onClick={this.deleteSegment}></button>
+                                <button id="addButton" className="IconButton" title={local[this.state.localset].tooltips.add} disabled={this.state.running} onClick={this.addSegment}></button>
+                                <button id="editButton" className="IconButton" title={local[this.state.localset].tooltips.edit} disabled={this.state.running} onClick={this.startEditSegment}></button>
+                                <button id="deleteButton" className="IconButton" title={local[this.state.localset].tooltips.delete} disabled={this.state.running} onClick={this.deleteSegment}></button>
                             </div>
 
                             <div className="RightGroup">
-                                <button id="resetButton" className="IconButton" title="Clear segment table" disabled={this.state.running}  onClick={this.resetSegments}></button>
+                                <button id="clearButton" className="IconButton" title={local[this.state.localset].tooltips.clear} disabled={this.state.running}  onClick={this.resetSegments}></button>
                             </div>
                         </div>
 
