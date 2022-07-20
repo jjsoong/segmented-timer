@@ -63,21 +63,13 @@ class Segment extends React.Component {
             timeText = secondsToMinuteString(diff);
         }
 
-        const sel = {
-            background: 'lightblue'
-        };
+        const sel = {background: 'lightblue'};
 
-        const nsel = {
-            background: 'white'
-        };
+        const nsel = {background: 'white'};
 
-        const overtime = {
-            color: 'red'
-        };
+        const overtime = {color: 'red'};
 
-        const finished = {
-            color: 'green'
-        };
+        const finished = {color: 'green'};
 
         let textStyle;
         switch (this.props.waruovfi) {
