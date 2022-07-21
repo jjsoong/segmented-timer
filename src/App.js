@@ -486,7 +486,7 @@ class App extends React.Component {
                             <div className="FileInput">
                                 <label htmlFor="feedback" style={{textAlign: "start"}}>{local[this.state.localset].settingsText.febaLbl}</label>
                             </div>
-                            <textarea id="feedback" rows="5" placeholder={local[this.state.localset].settingsText.febaLbl} onChange={this.handleChange}>{this.state.feedback}</textarea>
+                            <textarea id="feedback" rows="5" placeholder={local[this.state.localset].settingsText.febaLbl} value={this.state.feedback} onChange={this.handleChange}/>
                             <div className="SubmitRow">
                                 <button className="IOButton" onClick={this.sendFeedback}>{local[this.state.localset].settingsText.febaBtn}</button>
                             </div>
