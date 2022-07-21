@@ -20,8 +20,7 @@ class App extends React.Component {
             editing: false,
             help: false,
             settings: false,
-            localset: 0,
-            feedback: ""
+            localset: 0
         };
 
         // Timer functions.
@@ -49,7 +48,6 @@ class App extends React.Component {
         // Settings functions
         this.importFile = this.importFile.bind(this);
         this.handleChange = this.handleChange.bind(this);
-        this.sendFeedback = this.sendFeedback.bind(this);
     }
 
     // Flag that the user has finished their activity for a segment. Swap to the next segment.
@@ -375,11 +373,6 @@ class App extends React.Component {
         });
     }
 
-    // 'Send' feedback to the developer (not yet implemented).
-    sendFeedback () {
-        alert(`Feedback sent!\n(Not really, this functionality has "not yet been implemented".)\n\nYour message was:\n${this.state.feedback}`);
-    }
-
     // Render the entire web app.
     render () {
         // Create array of segment React component objects.
@@ -480,15 +473,6 @@ class App extends React.Component {
                                 <select id="localset" className="Dropdown" value={this.state.localset} onChange={this.handleChange}>
                                     {localOptions}
                                 </select>
-                            </div>
-                        </div>
-                        <div className="Inner">
-                            <div className="FileInput">
-                                <label htmlFor="feedback" style={{textAlign: "start"}}>{local[this.state.localset].settingsText.febaLbl}</label>
-                            </div>
-                            <textarea id="feedback" rows="5" placeholder={local[this.state.localset].settingsText.febaLbl} value={this.state.feedback} onChange={this.handleChange}/>
-                            <div className="SubmitRow">
-                                <button className="IOButton" onClick={this.sendFeedback}>{local[this.state.localset].settingsText.febaBtn}</button>
                             </div>
                         </div>
                     </div>
