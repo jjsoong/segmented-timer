@@ -515,7 +515,7 @@ class App extends React.Component {
                             </div>
 
                             <div className="RightGroup">
-                                <button id="clearButton" className="IconButton" title={local[this.state.localset].tooltips.clear} disabled={this.state.running}  onClick={this.resetSegments}></button>
+                                <button id="clearButton" className="IconButton" title={local[this.state.localset].tooltips.clear} disabled={this.state.running}  onClick={this.clearSegments}></button>
                             </div>
                         </div>
 
