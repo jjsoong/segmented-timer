@@ -40,7 +40,8 @@ const local = [
 				"To account for users possibly taking longer or shorter for specific segments than the planned amount of time, this timer also features a function similar to a stopwatch's laps, which shall be called 'finish times'.",
 				"If users finish earlier than intended, users may notify the timer with the checkmark (finish current segment) button. The timer will jump to the next segment, while carrying over the remaining time of the previous segment.",
 				"If users take longer than intended (enter overtime), users can see how much longer they are taking (or have taken) as the segment's timer turns red and beings seeping to the negatives. Users should also note that the next segment will begin counting down as well, once in overtime!",
-				"To better process the results, users should know that a green positive time is the amount of time they've saved for a segment. Conversely, a red negative time is the amount of additional time they've lost for that segment."
+				"To better process the results, users should know that a green positive time is the amount of time they've saved for a segment. Conversely, a red negative time is the amount of additional time they've lost for that segment.",
+				"In the Settings panel, users can download their timer segments as .json objects for reuse, change languages, or send feedback to the developers. Check the Settings panel out!"
 			]
 		},
 		tooltips: {		
@@ -73,7 +74,7 @@ const local = [
 			import: "Charger le fichier sélectionné",
 			export: "Télécharger les segments au format .json",
 			language: "Langue:",
-			febaLbl: "Commentaires et/ou feedback pour le développeur :",
+			febaLbl: "Commentaires et/ou feedback pour le développeur:",
 			febaBtn: "Envoyer des commentaires"
 		},
 		help: {
@@ -96,11 +97,12 @@ const local = [
 				"Pour tenir compte des utilisateurs prenant éventuellement plus ou moins longtemps pour des segments spécifiques que le temps prévu, ce chronomètre dispose également d'une fonction similaire aux tours d'un chronomètre, qui sera appelée «temps d'arrivée».",
 				"Si les utilisateurs terminent plus tôt que prévu, les utilisateurs peuvent avertir le chronomètre avec le bouton coche (terminer le segment en cours). Le chronomètre passera au segment suivant, tout en reportant le temps restant du segment précédent.",
 				"Si les utilisateurs prennent plus de temps que prévu (entrer des heures supplémentaires), les utilisateurs peuvent voir combien de temps ils prennent (ou ont pris) lorsque la minuterie du segment devient rouge et que les êtres s'infiltrent dans les négatifs. Les utilisateurs doivent également noter que le prochain segment commencera également à décompter, une fois en prolongation!",
-				"Pour mieux traiter les résultats, les utilisateurs doivent savoir qu'un temps vert positif correspond au temps qu'ils ont gagné pour un segment. À l'inverse, un temps négatif rouge correspond au temps supplémentaire qu'ils ont perdu pour ce segment."
+				"Pour mieux traiter les résultats, les utilisateurs doivent savoir qu'un temps vert positif correspond au temps qu'ils ont gagné pour un segment. À l'inverse, un temps négatif rouge correspond au temps supplémentaire qu'ils ont perdu pour ce segment.",
+				"Dans le panneau Réglages et Paramètres, les utilisateurs peuvent télécharger leurs segments de minuterie en tant qu'objets .json pour les réutiliser, changer de langue ou envoyer des commentaires aux développeurs. Vérifiez le panneau Réglages et Paramètres!"
 			]
 		},
 		tooltips: {		
-			settings: "Réglages",
+			settings: "Réglages et Paramètres",
 			help: "Des instructions",
 			exit: "Panneau de sortie / Retour à la minuterie",
 			play: "Démarrer la minuterie",
