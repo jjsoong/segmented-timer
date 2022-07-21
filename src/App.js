@@ -20,7 +20,8 @@ class App extends React.Component {
             editing: false,
             help: false,
             settings: false,
-            localset: 0
+            localset: 0,
+            feedback: ""
         };
 
         // Timer functions.
@@ -45,9 +46,10 @@ class App extends React.Component {
         this.toggleSettings = this.toggleSettings.bind(this);
         this.exitPanel = this.exitPanel.bind(this);
 
-        // Settings function
+        // Settings functions
         this.importFile = this.importFile.bind(this);
-        this.selectLocal = this.selectLocal.bind(this);
+        this.handleChange = this.handleChange.bind(this);
+        this.sendFeedback = this.sendFeedback.bind(this);
     }
 
     // Flag that the user has finished their activity for a segment. Swap to the next segment.
@@ -323,10 +325,11 @@ class App extends React.Component {
                 };
             });
         } else {
-            alert('Please finish editing before accessing the settings.')
+            alert('Please finish editing before accessing the settings.');
         }
     }
 
+    // Close all panels.
     exitPanel () {
         this.setState({
             help: false,
@@ -366,10 +369,15 @@ class App extends React.Component {
     }
 
     // Select the localisation.
-    selectLocal (event) {
+    handleChange (event) {
         this.setState({
-            localset: event.target.value
+            [event.target.id]: event.target.value
         });
+    }
+
+    // 'Send' feedback to the developer (not yet implemented).
+    sendFeedback () {
+        alert(`Feedback sent!\n(Not really, this functionality has \"not yet been implemented\".)\n\nYour message was:\n${this.state.feedback}`);
     }
 
     // Render the entire web app.
@@ -444,7 +452,7 @@ class App extends React.Component {
                     <h1>{local[this.state.localset].help.heading}</h1>
                     <div className="Body">
                         <div className="ButtonRow">
-                            <div className="LeftGroup"></div>
+                            <div className="LeftGroup"/>
                             <div className="RightGroup">{exitButton}</div>
                         </div>
                         <ol className="Text" style={{marginTop: "1em"}}>{localHelpList}</ol>
@@ -458,7 +466,7 @@ class App extends React.Component {
                     <h1>{local[this.state.localset].tooltips.settings}</h1>
                     <div className="Body">
                         <div className="ButtonRow">
-                            <div className="LeftGroup"></div>
+                            <div className="LeftGroup"/>
                             <div className="RightGroup">{exitButton}</div>
                         </div>
                         <FileForm importFile={this.importFile} local={local[this.state.localset].settingsText}>
@@ -469,9 +477,18 @@ class App extends React.Component {
                                 <label>{local[this.state.localset].settingsText.language}</label>
                             </div>
                             <div className="RightGroup">
-                                <select className="Dropdown" value={this.state.localset} onChange={this.selectLocal}>
+                                <select id="localset" className="Dropdown" value={this.state.localset} onChange={this.handleChange}>
                                     {localOptions}
                                 </select>
+                            </div>
+                        </div>
+                        <div className="Inner">
+                            <div className="FileInput">
+                                <label htmlFor="feedback" style={{textAlign: "start"}}>{local[this.state.localset].settingsText.febaLbl}</label>
+                            </div>
+                            <textarea id="feedback" rows="5" placeholder={local[this.state.localset].settingsText.febaLbl} onChange={this.handleChange}>{this.state.feedback}</textarea>
+                            <div className="SubmitRow">
+                                <button className="IOButton" onClick={this.sendFeedback}>{local[this.state.localset].settingsText.febaBtn}</button>
                             </div>
                         </div>
                     </div>

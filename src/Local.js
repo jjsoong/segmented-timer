@@ -16,7 +16,9 @@ const local = [
 			selectFile: "Select File:",
 			import: "Load selected file",
 			export: "Download segments as .json",
-			language: "Language:"
+			language: "Language:",
+			febaLbl: "Comments and/or feedback for the developer:",
+			febaBtn: "Send feedback"
 		},
 		help: {
 			heading: "Hello! Welcome to the Segmented Timer Page!",
@@ -70,7 +72,9 @@ const local = [
 			selectFile: "Choisir le dossier:",
 			import: "Charger le fichier sélectionné",
 			export: "Télécharger les segments au format .json",
-			language: "Langue:"
+			language: "Langue:",
+			febaLbl: "Commentaires et/ou feedback pour le développeur :",
+			febaBtn: "Envoyer des commentaires"
 		},
 		help: {
 			heading: "Bonjour! Bienvenue sur la page du minuteur segmenté!",
