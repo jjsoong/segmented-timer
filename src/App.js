@@ -377,7 +377,7 @@ class App extends React.Component {
 
     // 'Send' feedback to the developer (not yet implemented).
     sendFeedback () {
-        alert(`Feedback sent!\n(Not really, this functionality has \"not yet been implemented\".)\n\nYour message was:\n${this.state.feedback}`);
+        alert(`Feedback sent!\n(Not really, this functionality has "not yet been implemented".)\n\nYour message was:\n${this.state.feedback}`);
     }
 
     // Render the entire web app.
