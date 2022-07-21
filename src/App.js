@@ -522,15 +522,6 @@ class App extends React.Component {
                         {segArray}
                     </div>
                 </div>}
-                
-                <footer>
-                    <p className="Text">
-                        Notes:
-                        <br/>
-                        Currently, not all functions and design of original mockup were implemented (due to time constraints).
-                        Notable absences include tracking finish times (analyse results), and tooltips.
-                    </p>
-                </footer>
             </div>
         );
     }
