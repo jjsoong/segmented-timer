@@ -29,7 +29,8 @@ const local = [
 				"Repeat (1-3) as many times to add more segments to your liking.",
 				"Press the play button to start the timer! You can watch the segments time as well.",
 				"Press the pause button to pause the timer.",
-				"Press the stop button to stop and reset the timer."
+				"Press the stop button to stop and reset the timer.",
+				"Press the checkmark button to finish the current segment, and jump to the next."
 			],
 			notes: [
 				"*You can edit and delete existing segments by, first clicking on the segment (will highlight the segment in light blue), then clicking the pencil (edit) button or trash can (delete) button, respectively.",
@@ -86,7 +87,8 @@ const local = [
 				"Répétez (1-3) autant de fois pour ajouter plus de segments à votre goût.",
 				"Appuyez sur le bouton de lecture pour démarrer la minuterie! Vous pouvez également regarder l'heure des segments.",
 				"Appuyez sur le bouton pause pour mettre la minuterie en pause.",
-				"Appuyez sur le bouton d'arrêt pour arrêter et réinitialiser la minuterie."
+				"Appuyez sur le bouton d'arrêt pour arrêter et réinitialiser la minuterie.",
+				"Appuyez sur le bouton coche pour terminer le segment en cours et passer au suivant."
 			],
 			notes: [
 				"*Vous pouvez modifier et supprimer des segments existants en cliquant d'abord sur le segment (cela mettra le segment en surbrillance en bleu clair), puis en cliquant sur le bouton crayon (modifier) ou sur le bouton poubelle (supprimer), respectivement.",	
