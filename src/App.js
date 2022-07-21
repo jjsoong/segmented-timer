@@ -58,8 +58,15 @@ class App extends React.Component {
     
                 // If user is waiting/running -> finished.
                 // If user is overtime -> overtime (no change).
-                if (newSegments[state.user].waruovfi !== 2) newSegments[state.user].waruovfi = 3;
-    
+                if (newSegments[state.user].waruovfi !== 2) {
+                    newSegments[state.user].waruovfi = 3;
+                    
+                    if (state.user + 1 < newSegments.length) {
+                        let bonus = newSegments[state.user].max - newSegments[state.user].passed;
+                        newSegments[state.user + 1].passed = -bonus;
+                    }
+                }
+
                 return {
                     current: (state.current < state.user + 1 ? state.user + 1 : state.current),
                     user: state.user + 1,
@@ -405,6 +412,8 @@ class App extends React.Component {
         // Line taken & adapted from a personal project.
         let link = "data:application/json;charset=utf-8," + encodeURIComponent(JSON.stringify(this.state.segments));
 
+        let exitButton = <button id="exitButton" className="IconButton" title={local[this.state.localset].tooltips.exit} onClick={this.exitPanel}/>
+
         // Options for the localisation dropdown list.
         let localOptions = local.map((localObj, index) => 
             <option key={localObj.language} value={index}>{localObj.language}</option>
@@ -413,6 +422,10 @@ class App extends React.Component {
         // Localisation of help list.
         let localHelpList = local[this.state.localset].help.list.map((listItem, index) =>
             <li key={index}>{listItem}</li>
+        );
+
+        let localHelpNotes = local[this.state.localset].help.notes.map((listNote, index) =>
+            <p key={index} className="Text">{listNote}<br/><br/></p>
         );
 
         return (
@@ -432,13 +445,11 @@ class App extends React.Component {
                     <div className="Body">
                         <div className="ButtonRow">
                             <div className="LeftGroup"></div>
-                            <div className="RightGroup">
-                                <button className="ExitButton IconButton" title={local[this.state.localset].tooltips.exit} onClick={this.exitPanel}/>
-                            </div>
+                            <div className="RightGroup">{exitButton}</div>
                         </div>
                         <ol className="Text" style={{marginTop: "1em"}}>{localHelpList}</ol>
                         <br/>
-                        <p className="Text">{local[this.state.localset].help.notes}</p>
+                        {localHelpNotes}
                     </div>
                 </div>}
 
@@ -448,9 +459,7 @@ class App extends React.Component {
                     <div className="Body">
                         <div className="ButtonRow">
                             <div className="LeftGroup"></div>
-                            <div className="RightGroup">
-                                <button className="ExitButton IconButton" title={local[this.state.localset].tooltips.exit} onClick={this.exitPanel}/>
-                            </div>
+                            <div className="RightGroup">{exitButton}</div>
                         </div>
                         <FileForm importFile={this.importFile} local={local[this.state.localset].settingsText}>
                             <a className="IOButton" href={link} download="segments.json">{local[this.state.localset].settingsText.export}</a>

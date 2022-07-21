@@ -1,6 +1,6 @@
 #settingsButton {background-image: url("../public/icons/settings.png");}
 #helpButton {background-image: url("../public/icons/help.png");}
-.ExitButton {background-image: url("../public/icons/exit.png");}
+#exitButton {background-image: url("../public/icons/exit.png");}    /* Could use a 'return' icon instead. */
 #finishButton {background-image: url("../public/icons/checkmark.png");}
 #pauseButton {background-image: url("../public/icons/pause.png");}
 #playButton {background-image: url("../public/icons/play.png");}
